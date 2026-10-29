@@ -1,0 +1,11 @@
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+python-multipart==0.0.32
+httpx==0.28.1
+pymupdf==2.0
+numpy==2.4.6
+pytesseract==0.3.13
+pillow==13.0.0
+pyenchant==3.3.0
+python-docx==1.2.0
+openpyxl==3.1.5

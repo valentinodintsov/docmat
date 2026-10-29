@@ -1,0 +1,48 @@
+services:
+  docmat:
+    build: .
+    image: docmat:0.1.0
+    ports:
+      - "8000:8000"
+    environment:
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:7b}
+      DOCMAT_MAX_UPLOAD_MB: ${DOCMAT_MAX_UPLOAD_MB:-25}
+    # Документы не сохраняются: корневая ФС только для чтения,
+    # временные файлы LibreOffice живут в оперативной памяти (tmpfs).
+    read_only: true
+    tmpfs:
+      - /tmp:size=1g,mode=1777
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    # Порт доступен только с этой машины — для локальной разработки без контейнера docmat.
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+    restart: unless-stopped
+    # Для GPU NVIDIA раскомментируйте:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # Однократная загрузка модели: docker compose run --rm ollama-pull
+  ollama-pull:
+    image: ollama/ollama:latest
+    profiles: ["setup"]
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["ollama", "pull", "${OLLAMA_MODEL:-qwen2.5:7b}"]
+    depends_on:
+      - ollama
+
+volumes:
+  ollama-models:

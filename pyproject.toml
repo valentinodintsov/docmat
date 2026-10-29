@@ -1,0 +1,14 @@
+[project]
+name = "docmat"
+version = "0.1.0"
+description = "Сервис распознавания текста и конвертации документов (Tesseract + Ollama)"
+requires-python = ">=3.11"
+authors = [{ name = "Одинцов Валентин Николаевич" }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"

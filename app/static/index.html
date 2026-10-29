@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DocMat — распознавание документов</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/static/favicon.svg" alt="" width="28" height="28">
+      <span>DocMat</span>
+    </div>
+    <p class="tagline">Распознавание текста и конвертация документов</p>
+  </header>
+
+  <main class="page">
+    <section id="dropzone" class="dropzone" tabindex="0" role="button"
+             aria-label="Перетащите документ сюда или нажмите для выбора файла">
+      <input id="file-input" type="file" hidden
+             accept=".doc,.docx,.odt,.ods,.rtf,.xls,.xlsx,.pdf">
+      <svg class="dz-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+      </svg>
+      <p class="dz-title">Перетащите документ сюда или <span class="link">выберите файл</span></p>
+      <p class="dz-formats">DOC · DOCX · ODT · ODS · RTF · XLS · XLSX · PDF · PDF/A</p>
+      <p id="file-info" class="dz-file" hidden></p>
+    </section>
+
+    <div class="workspace">
+      <section class="panel" aria-labelledby="orig-title">
+        <header class="panel-head">
+          <h2 id="orig-title">Оригинал</h2>
+          <span id="orig-meta" class="meta"></span>
+        </header>
+        <div id="original" class="panel-body original">
+          <p class="placeholder">Здесь появится загруженный документ</p>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="rec-title">
+        <header class="panel-head">
+          <h2 id="rec-title">Распознанный текст</h2>
+          <span id="rec-meta" class="meta"></span>
+        </header>
+        <div id="recognized" class="panel-body recognized" contenteditable="false"
+             spellcheck="false" aria-describedby="rec-meta"></div>
+        <p id="rec-placeholder" class="placeholder overlay">Нажмите «Распознать», чтобы получить текст</p>
+      </section>
+
+      <aside class="controls" aria-label="Управление">
+        <div class="btn-group">
+          <button id="btn-recognize" class="btn primary" disabled>Распознать</button>
+          <button id="btn-correct" class="btn" disabled>Исправить</button>
+          <button id="btn-clear" class="btn" disabled>Очистить</button>
+          <button id="btn-convert" class="btn" disabled>Конвертировать</button>
+        </div>
+
+        <details class="options">
+          <summary>Параметры</summary>
+          <label>Язык распознавания
+            <select id="opt-lang">
+              <option value="rus+eng" selected>Русский + английский</option>
+              <option value="rus">Русский</option>
+              <option value="eng">Английский</option>
+            </select>
+          </label>
+          <label class="check"><input id="opt-force-ocr" type="checkbox"> Только OCR (игнорировать текстовый слой)</label>
+        </details>
+
+        <div class="downloads">
+          <h3>Сконвертированные документы</h3>
+          <ul id="download-list">
+            <li><a data-format="docx" aria-disabled="true">DOCX</a></li>
+            <li><a data-format="xlsx" aria-disabled="true">XLSX</a></li>
+            <li><a data-format="odt" aria-disabled="true">ODT</a></li>
+            <li><a data-format="ods" aria-disabled="true">ODS</a></li>
+            <li><a data-format="pdf" aria-disabled="true">PDF</a></li>
+            <li><a data-format="pdfa" aria-disabled="true">PDF/A</a></li>
+          </ul>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </aside>
+    </div>
+
+    <p class="privacy">Документы обрабатываются в оперативной памяти и не сохраняются на сервере.</p>
+  </main>
+
+  <div id="suggest-menu" class="suggest-menu" role="menu" hidden></div>
+
+  <footer class="footer">© Одинцов Валентин Николаевич, 2026</footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
